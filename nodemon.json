@@ -1,0 +1,7 @@
+{
+  "env": {
+    "MONGO_USER": "SamirGhias",
+    "MONGO_PASSWORD": "g@N4VErrXKfrVG*",
+    "MONGO_DB": "express-api"
+  }
+}
