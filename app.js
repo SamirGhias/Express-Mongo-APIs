@@ -1,9 +1,9 @@
-const express = require('express');
+const express = require("express");
 const app = express();
-const morgan = require('morgan');
-const bodyParser = require('body-parser');
+const morgan = require("morgan");
+const bodyParser = require("body-parser");
 
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const username = encodeURIComponent(process.env.MONGO_USER);
 const password = encodeURIComponent(process.env.MONGO_PASSWORD);
 const db_name = encodeURIComponent(process.env.MONGO_DB);
@@ -17,33 +17,35 @@ mongoose.connect(uri);
 //   console.log(err);
 // });
 
-const productRoutes = require('./api/routes/products');
-const orderRoutes = require('./api/routes/orders');
+const productRoutes = require("./api/routes/products");
+const orderRoutes = require("./api/routes/orders");
 
-app.use(morgan('dev'));
+app.use(morgan("dev"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use((req, res, next) => {
   // console.log('INSIDE');
-  res.header('Access-Control-Allow-Origin', '*');
+  res.header("Access-Control-Allow-Origin", "*");
   res.header(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
   );
 
-  if (req.method === 'OPTIONS') {
-    res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
+  if (req.method === "OPTIONS") {
+    res.header("Access-Control-Allow-Methods", "PUT, POST, PATCH, DELETE, GET");
     return res.status(200).json({});
   }
   next();
 });
-
-app.use('/products', productRoutes);
-app.use('/orders', orderRoutes);
+// app("/", (req, res) => {
+//   res.json({ message: "WORKING" });
+// });
+app.use("/products", productRoutes);
+app.use("/orders", orderRoutes);
 
 app.use((req, res, next) => {
-  const error = new Error('Not Found');
+  const error = new Error("Not Found");
   error.status = 404;
   next(error);
 });
